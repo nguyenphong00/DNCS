@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: dncs
+      POSTGRES_USER: dncs
+      POSTGRES_PASSWORD: dncs-local-only
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dncs -d dncs"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - dncs-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  dncs-postgres-data:
